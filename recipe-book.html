@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe Book — All Things Jams</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="site-nav__inner">
+      <a class="site-nav__brand" href="index.html">
+        <span class="site-nav__brand-mark" aria-hidden="true">🫙</span>
+        All Things Jams
+      </a>
+      <ul class="site-nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="recipe-book.html" class="is-active">Recipe Book</a></li>
+        <li><a href="ingredients.html">Ingredient List</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="page-header">
+      <h1 class="page-header__title">Recipe Book</h1>
+      <p class="page-header__subtitle">Every batch we've made, catalogued by ingredients, dates, and yield.</p>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-expanded="false" aria-label="Open filters and add recipe menu">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <section class="batches" id="batches"></section>
+  </main>
+
+  <div class="panel-overlay" id="panelOverlay"></div>
+  <aside class="side-panel" id="sidePanel" aria-label="Filters and add recipe">
+    <button class="side-panel__close" id="panelCloseBtn" aria-label="Close menu">✕</button>
+
+    <h3>Filter batches</h3>
+    <div class="field" style="margin-bottom:10px;">
+      <label for="filterBatchNumber">Batch number</label>
+      <select id="filterBatchNumber">
+        <option value="">All batches</option>
+        <option value="1">Batch 1</option>
+        <option value="2">Batch 2</option>
+        <option value="3">Batch 3</option>
+      </select>
+    </div>
+    <div class="field" style="margin-bottom:10px;">
+      <label for="filterFruits">Fruits used</label>
+      <input type="text" id="filterFruits" placeholder="e.g. strawberry" />
+    </div>
+    <div class="field" style="margin-bottom:10px;">
+      <label for="filterDate">Date made</label>
+      <input type="date" id="filterDate" />
+    </div>
+    <div class="field" style="margin-bottom:14px;">
+      <label for="filterQuantity">Quantity produced</label>
+      <input type="number" id="filterQuantity" placeholder="e.g. 12" />
+    </div>
+    <button class="btn btn--ghost btn--sm" id="filterResetBtn">Clear filters</button>
+
+    <h3>Add recipe</h3>
+    <div class="field" style="margin-bottom:12px;">
+      <label for="targetBatchSelect">Add to batch</label>
+      <select id="targetBatchSelect"></select>
+    </div>
+
+    <div class="tabs">
+      <button class="is-active" data-tab="tab-scan">Scan recipe</button>
+      <button data-tab="tab-paste">Paste recipe</button>
+      <button data-tab="tab-manual">Manual entry</button>
+    </div>
+
+    <div class="tab-panel is-active" id="tab-scan">
+      <p class="help-text">Upload a photo or PDF of a handwritten/printed recipe. We'll save it now and add automatic ingredient extraction in a future update.</p>
+      <label class="dropzone dropzone--compact" for="scanFileInput" id="scanDropzone">
+        <span class="dropzone__icon" aria-hidden="true">📄</span>
+        <span class="dropzone__label">Upload recipe scan</span>
+        <span class="dropzone__hint">JPEG, PNG, or PDF</span>
+        <span class="dropzone__filename"></span>
+        <input type="file" id="scanFileInput" accept="image/*,.pdf" />
+      </label>
+      <button class="btn btn--primary btn--sm" id="scanSaveBtn" style="margin-top:10px;">Save reference</button>
+      <p class="help-text" id="scanStatus"></p>
+    </div>
+
+    <div class="tab-panel" id="tab-paste">
+      <p class="help-text">Paste a recipe below. We'll try to detect ingredients and convert quantities to standard US units — check the results before saving.</p>
+      <textarea id="pasteTextarea" rows="6" style="width:100%;font-family:inherit;padding:10px;border-radius:8px;border:1px solid var(--color-border);" placeholder="2 cups strawberries&#10;500g sugar&#10;3 tbsp lemon juice"></textarea>
+      <button class="btn btn--secondary btn--sm" id="parseBtn" style="margin-top:10px;">Parse</button>
+      <div id="pasteResultsWrap" hidden>
+        <div id="pasteResults"></div>
+        <button class="btn btn--ghost btn--sm" id="pasteAddRowBtn">+ Add row</button>
+        <button class="btn btn--primary btn--sm" id="pasteSaveBtn">Save to batch</button>
+      </div>
+      <p class="help-text" id="pasteStatus"></p>
+    </div>
+
+    <div class="tab-panel" id="tab-manual">
+      <p class="help-text">Add ingredients one at a time.</p>
+      <div id="manualRows"></div>
+      <button class="btn btn--ghost btn--sm" id="manualAddRowBtn">+ Add row</button>
+      <button class="btn btn--primary btn--sm" id="manualSaveBtn">Save to batch</button>
+      <p class="help-text" id="manualStatus"></p>
+    </div>
+  </aside>
+
+  <footer class="site-footer">Made with love, sugar, and a lot of fruit. 🍑🍓🫐</footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/parser.js"></script>
+  <script src="js/recipe-book.js"></script>
+</body>
+</html>

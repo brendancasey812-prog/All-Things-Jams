@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingredient List — All Things Jams</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="site-nav__inner">
+      <a class="site-nav__brand" href="index.html">
+        <span class="site-nav__brand-mark" aria-hidden="true">🫙</span>
+        All Things Jams
+      </a>
+      <ul class="site-nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="recipe-book.html">Recipe Book</a></li>
+        <li><a href="ingredients.html" class="is-active">Ingredient List</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="page-header">
+      <h1 class="page-header__title">Ingredient List</h1>
+      <p class="page-header__subtitle">Every ingredient from every batch, combined into one shopping list.</p>
+    </header>
+
+    <div class="page-actions">
+      <button class="btn btn--secondary btn--sm" id="refreshBtn">↻ Refresh from recipes</button>
+    </div>
+
+    <ul class="checklist" id="checklist"></ul>
+    <div class="empty-state" id="emptyState" hidden>
+      <p>No ingredients yet. Add some from the <a href="recipe-book.html">Recipe Book</a> and they'll show up here.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">Made with love, sugar, and a lot of fruit. 🍑🍓🫐</footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/ingredients.js"></script>
+</body>
+</html>

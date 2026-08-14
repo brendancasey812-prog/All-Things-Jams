@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Things Jams</title>
+  <meta name="description" content="Home-made small-batch jams — the story, the jars, the recipes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="site-nav__inner">
+      <a class="site-nav__brand" href="index.html">
+        <span class="site-nav__brand-mark" aria-hidden="true">🫙</span>
+        All Things Jams
+      </a>
+      <ul class="site-nav__links">
+        <li><a href="index.html" class="is-active">Home</a></li>
+        <li><a href="recipe-book.html">Recipe Book</a></li>
+        <li><a href="ingredients.html">Ingredient List</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero container">
+      <h1 class="hero__title">All Things Jams</h1>
+      <p class="hero__subtitle">Small-batch fruit jams, made one jar at a time. Here's the very first one.</p>
+      <div class="hero__dropzone-wrap">
+        <label class="dropzone dropzone--hero" for="heroFileInput" id="heroDropzone">
+          <span class="dropzone__icon" aria-hidden="true">🫙</span>
+          <span class="dropzone__label">Add a photo of our first jam jar</span>
+          <span class="dropzone__hint">JPEG, PNG, or PDF</span>
+          <span class="dropzone__filename"></span>
+          <input type="file" id="heroFileInput" accept="image/*,.pdf" />
+        </label>
+      </div>
+    </section>
+
+    <section class="gallery container">
+      <div class="gallery__heading">
+        <h2>From the Jam Kitchen</h2>
+        <p class="hero__subtitle" style="margin-bottom:0;">Scroll down to see (and add) photos from every batch we've made.</p>
+      </div>
+      <div class="gallery__grid" id="galleryGrid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">Made with love, sugar, and a lot of fruit. 🍑🍓🫐</footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/scroll-reveal.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
