@@ -6,13 +6,13 @@
   --color-bg: #faf9f5;
   --color-surface: #ffffff;
   --color-surface-alt: #f1efe8;
-  --color-primary: #ab3157;
-  --color-primary-dark: #7f2542;
-  --color-primary-soft: #d99cb2;
+  --color-primary: #d9557d;
+  --color-primary-dark: #a8386a;
+  --color-primary-soft: #e8b8cb;
   --color-accent: #b98a3a;
   --color-accent-soft: #e3c483;
-  --color-text: #a8415f;
-  --color-text-muted: #c98aa0;
+  --color-text: #c2688f;
+  --color-text-muted: #dba9bd;
   --color-border: #e3e1da;
   --shadow-soft: 0 12px 30px -18px rgba(30, 28, 26, 0.18);
   --shadow-lift: 0 20px 45px -20px rgba(20, 18, 17, 0.25);
