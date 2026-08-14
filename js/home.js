@@ -1,13 +1,10 @@
-/* home.js — hero + scroll-reveal gallery for the home page */
+/* home.js — hero + the Jam Kitchen batch sections for the home page */
 
-const GALLERY_CARDS = [
-  { id: 'card-1', hint: 'Photo or PDF' },
-  { id: 'card-2', hint: 'Photo or PDF' },
-  { id: 'card-3', hint: 'Photo or PDF' },
-  { id: 'card-4', hint: 'Photo or PDF' },
-  { id: 'card-5', hint: 'Photo or PDF' },
-  { id: 'card-6', hint: 'Photo or PDF' },
-];
+const KITCHEN_BATCHES = [1, 2, 3];
+
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
 
 function initDropzone(dropzoneEl) {
   const input = dropzoneEl.querySelector('input[type="file"]');
@@ -25,35 +22,47 @@ function initDropzone(dropzoneEl) {
   });
 }
 
-function renderGallery() {
-  const grid = document.getElementById('galleryGrid');
-  if (!grid) return;
+function renderKitchenSections() {
+  const container = document.getElementById('kitchenSections');
+  if (!container) return;
   const captions = Storage.getGalleryCaptions();
 
-  grid.innerHTML = GALLERY_CARDS.map((card, index) => `
-    <div class="gallery-card reveal" style="transition-delay: ${index * 90}ms">
-      <label class="dropzone dropzone--compact" for="${card.id}-input">
-        <span class="dropzone__icon" aria-hidden="true">🍓</span>
-        <span class="dropzone__label">Add a jam photo</span>
-        <span class="dropzone__hint">${card.hint}</span>
-        <span class="dropzone__filename"></span>
-        <input type="file" id="${card.id}-input" accept="image/*,.pdf" />
-      </label>
-      <input
-        type="text"
-        class="gallery-card__caption"
-        placeholder="Say something about this batch..."
-        value="${(captions[card.id] || '').replace(/"/g, '&quot;')}"
-        data-card-id="${card.id}"
-      />
-    </div>
-  `).join('');
+  container.innerHTML = KITCHEN_BATCHES.map((batchNum, index) => {
+    const reverse = index % 2 === 1;
+    const captionKey = `batch-${batchNum}`;
+    return `
+      <div class="kitchen-section reveal ${reverse ? 'kitchen-section--reverse' : ''}" style="transition-delay: ${index * 120}ms">
+        <div class="kitchen-section__media">
+          <label class="dropzone dropzone--kitchen" for="batch-${batchNum}-main-input">
+            <span class="dropzone__icon" aria-hidden="true">🫙</span>
+            <span class="dropzone__label">Add a Batch ${batchNum} photo</span>
+            <span class="dropzone__hint">Photo or PDF</span>
+            <span class="dropzone__filename"></span>
+            <input type="file" id="batch-${batchNum}-main-input" accept="image/*,.pdf" />
+          </label>
+          <label class="dropzone dropzone--kitchen-detail" for="batch-${batchNum}-detail-input">
+            <span class="dropzone__icon" aria-hidden="true">🍓</span>
+            <span class="dropzone__hint">detail shot</span>
+            <input type="file" id="batch-${batchNum}-detail-input" accept="image/*,.pdf" />
+          </label>
+        </div>
+        <div class="kitchen-section__text">
+          <span class="kitchen-section__eyebrow">Batch 0${batchNum}</span>
+          <textarea
+            class="kitchen-section__caption"
+            placeholder="Say something about this batch..."
+            data-card-id="${captionKey}"
+          >${escapeHTML(captions[captionKey] || '')}</textarea>
+        </div>
+      </div>
+    `;
+  }).join('');
 
-  grid.querySelectorAll('.dropzone').forEach(initDropzone);
+  container.querySelectorAll('.dropzone').forEach(initDropzone);
 
-  grid.querySelectorAll('.gallery-card__caption').forEach((input) => {
-    input.addEventListener('input', () => {
-      Storage.saveGalleryCaption(input.dataset.cardId, input.value);
+  container.querySelectorAll('.kitchen-section__caption').forEach((textarea) => {
+    textarea.addEventListener('input', () => {
+      Storage.saveGalleryCaption(textarea.dataset.cardId, textarea.value);
     });
   });
 
@@ -63,5 +72,5 @@ function renderGallery() {
 document.addEventListener('DOMContentLoaded', () => {
   const heroDropzone = document.getElementById('heroDropzone');
   if (heroDropzone) initDropzone(heroDropzone);
-  renderGallery();
+  renderKitchenSections();
 });

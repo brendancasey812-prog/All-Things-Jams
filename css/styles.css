@@ -3,19 +3,19 @@
    ========================================================================== */
 
 :root {
-  --color-bg: #faf5ec;
-  --color-surface: #fffdf9;
-  --color-surface-alt: #f4e9da;
-  --color-primary: #6f1d3c;
-  --color-primary-dark: #4d1229;
-  --color-primary-soft: #9c3f61;
-  --color-accent: #c8932f;
-  --color-accent-soft: #e6c375;
-  --color-text: #2c1a1f;
-  --color-text-muted: #6b5a56;
-  --color-border: #e3d4bf;
-  --shadow-soft: 0 12px 30px -18px rgba(78, 24, 44, 0.45);
-  --shadow-lift: 0 20px 45px -20px rgba(78, 24, 44, 0.55);
+  --color-bg: #faf9f5;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f1efe8;
+  --color-primary: #ab3157;
+  --color-primary-dark: #7f2542;
+  --color-primary-soft: #d99cb2;
+  --color-accent: #b98a3a;
+  --color-accent-soft: #e3c483;
+  --color-text: #a8415f;
+  --color-text-muted: #c98aa0;
+  --color-border: #e3e1da;
+  --shadow-soft: 0 12px 30px -18px rgba(30, 28, 26, 0.18);
+  --shadow-lift: 0 20px 45px -20px rgba(20, 18, 17, 0.25);
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -34,9 +34,6 @@ html {
 body {
   margin: 0;
   background: var(--color-bg);
-  background-image:
-    radial-gradient(circle at 8% 0%, rgba(200, 147, 47, 0.10), transparent 40%),
-    radial-gradient(circle at 92% 12%, rgba(111, 29, 60, 0.08), transparent 45%);
   color: var(--color-text);
   font-family: var(--font-body);
   line-height: 1.55;
@@ -225,7 +222,7 @@ img {
 .dropzone.has-file {
   border-style: solid;
   border-color: var(--color-primary-soft);
-  background: #fff6ea;
+  background: #fbeef1;
 }
 
 .dropzone--hero {
@@ -242,18 +239,12 @@ img {
 /* ---------------------------------------------------------------------- */
 
 .gallery {
-  padding: 40px 0 100px;
+  padding: 40px 0 110px;
 }
 
 .gallery__heading {
   text-align: center;
-  margin-bottom: 40px;
-}
-
-.gallery__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 28px;
+  margin-bottom: 56px;
 }
 
 .reveal {
@@ -267,25 +258,117 @@ img {
   transform: translateY(0);
 }
 
-.gallery-card {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: 18px;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid var(--color-border);
+.kitchen-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 88px;
 }
 
-.gallery-card__caption {
-  margin-top: 14px;
+.kitchen-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.kitchen-section__media {
+  position: relative;
+  order: 1;
+}
+
+.kitchen-section__text {
+  order: 2;
+}
+
+.kitchen-section--reverse .kitchen-section__media {
+  order: 2;
+}
+
+.kitchen-section--reverse .kitchen-section__text {
+  order: 1;
+}
+
+.dropzone--kitchen {
+  aspect-ratio: 4 / 5;
+  padding: 20px;
+}
+
+.dropzone--kitchen-detail {
+  position: absolute;
+  width: 42%;
+  aspect-ratio: 1 / 1;
+  bottom: -30px;
+  left: -30px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  transform: rotate(-6deg);
+  box-shadow: var(--shadow-lift);
+  background: var(--color-surface);
+}
+
+.kitchen-section--reverse .dropzone--kitchen-detail {
+  left: auto;
+  right: -30px;
+  transform: rotate(6deg);
+}
+
+.dropzone--kitchen-detail .dropzone__label,
+.dropzone--kitchen-detail .dropzone__hint {
+  font-size: 0.72rem;
+}
+
+.kitchen-section__eyebrow {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 16px;
+}
+
+.kitchen-section__caption {
+  display: block;
   width: 100%;
+  min-height: 130px;
   border: none;
+  border-left: 3px solid var(--color-border);
   background: transparent;
-  border-bottom: 1px solid var(--color-border);
+  resize: none;
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 0.98rem;
+  font-size: 1.3rem;
+  line-height: 1.55;
   color: var(--color-text);
-  padding: 6px 2px;
+  padding: 0 0 0 22px;
+}
+
+.kitchen-section__caption:focus {
+  outline: none;
+  border-left-color: var(--color-accent);
+}
+
+.kitchen-section__caption::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.75;
+}
+
+@media (max-width: 780px) {
+  .kitchen-section {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .kitchen-section__media,
+  .kitchen-section--reverse .kitchen-section__media {
+    order: 1;
+  }
+  .kitchen-section__text,
+  .kitchen-section--reverse .kitchen-section__text {
+    order: 2;
+  }
+  .dropzone--kitchen-detail {
+    width: 38%;
+  }
 }
 
 .gallery-card__caption:focus {
