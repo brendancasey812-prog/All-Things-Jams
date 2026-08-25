@@ -75,8 +75,15 @@ function downscaleImage(dataUrl, type) {
 const Photos = {
   ACCEPT_ATTR,
 
-  /** Markup for a dropzone. Extra classes let each page size its own boxes. */
+  /** Markup for a photo slot.
+   *  View mode renders the photo as a plain image, or nothing when the slot
+   *  is empty. Edit mode renders the drop target. */
   markup({ slotId, label, hint = 'Drop a photo here — JPG, PNG, WEBP, HEIC, GIF or PDF', icon = '📷', classes = '' }) {
+    if (typeof EditMode !== 'undefined' && !EditMode.active) {
+      const photo = Storage.getPhoto(slotId);
+      if (!photo || !photo.dataUrl) return '';
+      return `<figure class="photo ${classes}"><img src="${photo.dataUrl}" alt="${escapeHTML(photo.name || 'Trip photo')}" loading="lazy" /></figure>`;
+    }
     return `
       <label class="dropzone ${classes}" for="${slotId}-input" data-slot="${slotId}">
         <img class="dropzone__preview" alt="" />

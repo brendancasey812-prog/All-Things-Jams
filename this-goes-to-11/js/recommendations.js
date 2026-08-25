@@ -21,48 +21,73 @@ function ratingMarkup(rec) {
 
 function recMarkup(rec) {
   const icon = CATEGORY_ICONS[rec.category] || '📍';
+  const editing = EditMode.active;
+
+  const media = Photos.markup({
+    slotId: `${rec.id}-photo`,
+    label: 'Drop a photo here',
+    hint: 'JPG, PNG, WEBP, HEIC, GIF or PDF',
+    icon,
+    classes: '',
+  });
+
+  const head = editing
+    ? `<div class="rec-card__top">
+         <select class="cat-select" data-field="category" aria-label="Category">
+           ${CATEGORIES.map(
+             (cat) => `<option value="${cat}" ${cat === rec.category ? 'selected' : ''}>${cat}</option>`
+           ).join('')}
+         </select>
+       </div>
+       <textarea
+         class="rec-card__title"
+         rows="1"
+         data-field="title"
+         placeholder="What is it?"
+         aria-label="Recommendation name"
+       >${escapeHTML(rec.title)}</textarea>
+       <input
+         class="rec-card__where"
+         type="text"
+         value="${escapeHTML(rec.where)}"
+         data-field="where"
+         placeholder="Where in the world?"
+         aria-label="Location"
+       />
+       <textarea
+         class="rec-card__notes"
+         data-field="notes"
+         placeholder="Why would you send someone here?"
+         aria-label="Notes"
+       >${escapeHTML(rec.notes)}</textarea>`
+    : `<div class="rec-card__top">
+         <span class="chip">${escapeHTML(rec.category)}</span>
+       </div>
+       <h2 class="rec-card__title rec-card__title--static">${escapeHTML(rec.title)}</h2>
+       ${rec.where ? `<p class="rec-card__where rec-card__where--static">${escapeHTML(rec.where)}</p>` : ''}
+       ${rec.notes ? `<p class="rec-card__notes rec-card__notes--static">${escapeHTML(rec.notes)}</p>` : ''}`;
+
+  const foot = editing
+    ? `<div class="rec-card__foot">
+         <div class="rating" role="group" aria-label="Rating">${ratingMarkup(rec)}</div>
+         <button class="link-btn" type="button" data-action="remove">Remove</button>
+       </div>`
+    : rec.rating
+      ? `<div class="rec-card__foot">
+           <div class="rating" aria-label="Rated ${rec.rating} out of 5">${
+             [1, 2, 3, 4, 5]
+               .map((v) => `<span class="rating__star ${v <= rec.rating ? 'is-on' : ''}" aria-hidden="true">★</span>`)
+               .join('')
+           }</div>
+         </div>`
+      : '';
+
   return `
     <article class="rec-card reveal" data-rec-id="${rec.id}">
-      ${Photos.markup({
-        slotId: `${rec.id}-photo`,
-        label: 'Drop a photo here',
-        hint: 'JPG, PNG, WEBP, HEIC, GIF or PDF',
-        icon,
-        classes: '',
-      })}
+      ${media}
       <div class="rec-card__body">
-        <div class="rec-card__top">
-          <select class="cat-select" data-field="category" aria-label="Category">
-            ${CATEGORIES.map(
-              (cat) => `<option value="${cat}" ${cat === rec.category ? 'selected' : ''}>${cat}</option>`
-            ).join('')}
-          </select>
-        </div>
-        <textarea
-          class="rec-card__title"
-          rows="1"
-          data-field="title"
-          placeholder="What is it?"
-          aria-label="Recommendation name"
-        >${escapeHTML(rec.title)}</textarea>
-        <input
-          class="rec-card__where"
-          type="text"
-          value="${escapeHTML(rec.where)}"
-          data-field="where"
-          placeholder="Where in the world?"
-          aria-label="Location"
-        />
-        <textarea
-          class="rec-card__notes"
-          data-field="notes"
-          placeholder="Why would you send someone here?"
-          aria-label="Notes"
-        >${escapeHTML(rec.notes)}</textarea>
-        <div class="rec-card__foot">
-          <div class="rating" role="group" aria-label="Rating">${ratingMarkup(rec)}</div>
-          <button class="link-btn" type="button" data-action="remove">Remove</button>
-        </div>
+        ${head}
+        ${foot}
       </div>
     </article>
   `;
@@ -98,7 +123,9 @@ function renderRecommendations() {
   const grid = document.getElementById('recGrid');
   if (!grid) return;
 
-  const all = Storage.getRecommendations();
+  const all = EditMode.active
+    ? Storage.getRecommendations()
+    : Storage.getRecommendations().filter((rec) => (rec.title || '').trim());
   const visible = activeFilter === 'All' ? all : all.filter((rec) => rec.category === activeFilter);
 
   if (visible.length === 0) {
@@ -162,11 +189,12 @@ function renderRecommendations() {
   initScrollReveal('.reveal');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initRecsPage() {
   renderFilters();
   renderRecommendations();
 
   const addBtn = document.getElementById('addRecBtn');
+  if (addBtn && !EditMode.active) addBtn.hidden = true;
   if (addBtn) {
     addBtn.addEventListener('click', () => {
       const category = activeFilter === 'All' ? 'Eat' : activeFilter;
@@ -181,4 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+}
+
+document.addEventListener('DOMContentLoaded', () => bootstrap(initRecsPage));

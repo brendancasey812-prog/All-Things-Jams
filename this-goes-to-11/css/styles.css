@@ -915,3 +915,127 @@ a { color: var(--sea); }
   .postcards--mixed { grid-template-columns: minmax(0, 1fr); }
   .postcard--wide, .postcard--third { grid-column: span 1; }
 }
+
+/* ---------------------------------------------------------------------- */
+/* Published (view) mode                                                   */
+/* ---------------------------------------------------------------------- */
+
+.photo {
+  margin: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--deep-ocean);
+  box-shadow: var(--shadow-soft);
+}
+
+.photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.photo.dropzone--tall img { min-height: 340px; max-height: 560px; }
+.photo.dropzone--wide img { min-height: 280px; max-height: 460px; }
+.photo.dropzone--short img { height: 150px; }
+.photo.dropzone--square { aspect-ratio: 1 / 1; }
+
+.postcard .photo { border-radius: 0; box-shadow: none; }
+.rec-card .photo { border-radius: 0; box-shadow: none; }
+.rec-card .photo img { height: 200px; }
+
+.postcard__caption--static {
+  padding: 14px 16px 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--on-light-muted);
+}
+
+.postcard__caption--static:empty { display: none; }
+
+.trip__title { font-size: clamp(1.6rem, 2.6vw, 2.1rem); margin-bottom: 0.2em; }
+.trip__when { font-size: 0.95rem; margin-bottom: 0.9em; }
+.trip__notes { font-size: 1.03rem; }
+
+.trip--textonly { grid-template-columns: minmax(0, 1fr); }
+
+.rec-card__title--static { font-size: 1.2rem; line-height: 1.3; margin: 0; }
+.rec-card__where--static { font-size: 0.82rem; color: var(--on-light-muted); margin: 0; }
+.rec-card__notes--static { font-size: 0.92rem; line-height: 1.55; margin: 0; flex: 1; }
+
+.rec-card__foot .rating__star { cursor: default; }
+
+/* ---------------------------------------------------------------------- */
+/* Edit-mode toolbar                                                       */
+/* ---------------------------------------------------------------------- */
+
+.editbar {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 80;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(7, 28, 42, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-dark);
+  box-shadow: var(--shadow-lift);
+  color: var(--on-dark);
+  max-width: min(94vw, 780px);
+}
+
+.editbar__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--foam);
+  flex: none;
+}
+
+.editbar__label { font-size: 0.82rem; color: var(--on-dark-muted); }
+
+.editbar .btn { padding: 7px 14px; font-size: 0.82rem; }
+.editbar .btn:hover { transform: none; }
+
+.editbar__import { cursor: pointer; margin: 0; }
+
+.editbar__exit {
+  font-size: 0.8rem;
+  color: var(--foam);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.editbar__exit:hover { text-decoration: underline; }
+
+/* Keep the toolbar clear of the footer */
+body.is-editing .site-footer { padding-bottom: 90px; }
+
+@media (max-width: 620px) {
+  .editbar { justify-content: center; text-align: center; border-radius: var(--radius-md); }
+  .editbar__label { width: 100%; }
+}
+
+/* A section whose photo frame is empty collapses to a single column. */
+.feature--textonly { grid-template-columns: minmax(0, 1fr); }
+.feature--textonly .feature__body { max-width: 68ch; }
+
+.hero__grid--textonly { grid-template-columns: minmax(0, 1fr); }
+.hero__grid--textonly .hero__body { max-width: 62ch; }
+
+/* Published postcard wall: even tiles, however many made the cut. */
+.postcards--even {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.postcards--even .postcard--wide,
+.postcards--even .postcard--third { grid-column: auto; }
+
+.postcards--even .photo { aspect-ratio: 4 / 3; }
+.postcards--even .photo img { height: 100%; min-height: 0; max-height: none; }
+
+/* Copy that differs between the published page and the editor. */
+.only-edit { display: none; }
+body.is-editing .only-edit { display: block; }
+body.is-editing .only-view { display: none; }

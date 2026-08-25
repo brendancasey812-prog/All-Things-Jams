@@ -106,16 +106,25 @@ function defaultRecommendations() {
   ];
 }
 
+/** Published content from content.json, when content.js has loaded one. */
+function publishedSection(key) {
+  return typeof Content !== 'undefined' ? Content.section(key) : null;
+}
+
 const Storage = {
   /* ---- Trips ---- */
   getTrips() {
     const trips = readJSON(STORAGE_KEYS.trips, null);
-    if (!Array.isArray(trips) || trips.length === 0) {
-      const seeded = defaultTrips();
-      writeJSON(STORAGE_KEYS.trips, seeded);
-      return seeded;
-    }
-    return trips;
+    if (Array.isArray(trips) && trips.length > 0) return trips;
+
+    const published = publishedSection('trips');
+    if (Array.isArray(published) && published.length > 0) return published;
+
+    // Nothing published and nothing local: seed the examples so the page
+    // isn't blank the first time it's opened.
+    const seeded = defaultTrips();
+    writeJSON(STORAGE_KEYS.trips, seeded);
+    return seeded;
   },
 
   saveTrips(trips) {
@@ -145,12 +154,14 @@ const Storage = {
   /* ---- Recommendations ---- */
   getRecommendations() {
     const recs = readJSON(STORAGE_KEYS.recommendations, null);
-    if (!Array.isArray(recs) || recs.length === 0) {
-      const seeded = defaultRecommendations();
-      writeJSON(STORAGE_KEYS.recommendations, seeded);
-      return seeded;
-    }
-    return recs;
+    if (Array.isArray(recs) && recs.length > 0) return recs;
+
+    const published = publishedSection('recommendations');
+    if (Array.isArray(published) && published.length > 0) return published;
+
+    const seeded = defaultRecommendations();
+    writeJSON(STORAGE_KEYS.recommendations, seeded);
+    return seeded;
   },
 
   saveRecommendations(recs) {
@@ -179,29 +190,30 @@ const Storage = {
 
   /* ---- Captions (postcards) ---- */
   getCaptions() {
-    return readJSON(STORAGE_KEYS.captions, {});
+    return { ...(publishedSection('captions') || {}), ...readJSON(STORAGE_KEYS.captions, {}) };
   },
 
   saveCaption(slotId, text) {
-    const captions = this.getCaptions();
+    // Writes stay local — published values are only ever read through.
+    const captions = readJSON(STORAGE_KEYS.captions, {});
     captions[slotId] = text;
     writeJSON(STORAGE_KEYS.captions, captions);
   },
 
   /* ---- About text ---- */
   getAbout() {
-    return readJSON(STORAGE_KEYS.about, {});
+    return { ...(publishedSection('about') || {}), ...readJSON(STORAGE_KEYS.about, {}) };
   },
 
   saveAboutField(key, text) {
-    const about = this.getAbout();
+    const about = readJSON(STORAGE_KEYS.about, {});
     about[key] = text;
     writeJSON(STORAGE_KEYS.about, about);
   },
 
   /* ---- Photos (dataURLs keyed by slot) ---- */
   getPhotos() {
-    return readJSON(STORAGE_KEYS.photos, {});
+    return { ...(publishedSection('photos') || {}), ...readJSON(STORAGE_KEYS.photos, {}) };
   },
 
   getPhoto(slotId) {
@@ -209,14 +221,17 @@ const Storage = {
   },
 
   savePhoto(slotId, photo) {
-    const photos = this.getPhotos();
+    // Only the local override is written, so published photos never get
+    // copied into localStorage and blow the quota.
+    const photos = readJSON(STORAGE_KEYS.photos, {});
     photos[slotId] = photo;
     return writeJSON(STORAGE_KEYS.photos, photos);
   },
 
   removePhoto(slotId) {
-    const photos = this.getPhotos();
-    delete photos[slotId];
+    const photos = readJSON(STORAGE_KEYS.photos, {});
+    // A null marks the slot as cleared, which also hides a published photo.
+    photos[slotId] = null;
     writeJSON(STORAGE_KEYS.photos, photos);
   },
 };
