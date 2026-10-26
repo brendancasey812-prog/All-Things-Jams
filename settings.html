@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — All Things Jams</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="site-nav__inner">
+      <a class="site-nav__brand" href="index.html">
+        <span class="site-nav__brand-mark" aria-hidden="true">🫙</span>
+        All Things Jams
+      </a>
+      <ul class="site-nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="recipe-book.html">Recipe Book</a></li>
+        <li><a href="ingredients.html">Ingredient List</a></li>
+        <li><a href="settings.html" class="is-active">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="page-header">
+      <h1 class="page-header__title">Settings</h1>
+      <p class="page-header__subtitle">How the site looks, and what it remembers.</p>
+    </header>
+
+    <section class="settings-card">
+      <h2 class="settings-card__title">Appearance</h2>
+      <p class="settings-card__hint">Pick a theme. "System" follows whatever your phone or computer is set to.</p>
+      <div class="theme-options">
+        <button class="theme-option" data-theme-option="system" aria-pressed="false">
+          <span class="theme-option__swatch theme-option__swatch--system" aria-hidden="true"></span>
+          System
+        </button>
+        <button class="theme-option" data-theme-option="light" aria-pressed="false">
+          <span class="theme-option__swatch theme-option__swatch--light" aria-hidden="true"></span>
+          Light
+        </button>
+        <button class="theme-option" data-theme-option="dark" aria-pressed="false">
+          <span class="theme-option__swatch theme-option__swatch--dark" aria-hidden="true"></span>
+          Dark
+        </button>
+      </div>
+      <p class="help-text" id="themeStatus"></p>
+    </section>
+
+    <section class="settings-card">
+      <h2 class="settings-card__title">Saved data</h2>
+      <p class="settings-card__hint">
+        Everything you type lives in this browser only — it isn't uploaded anywhere, and it won't
+        follow you to another device.
+      </p>
+      <p class="settings-card__summary" id="dataSummary"></p>
+      <button class="btn btn--danger btn--sm" id="clearDataBtn" data-confirming="false">Clear all saved data</button>
+      <p class="help-text" id="dataStatus"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">Made with love, sugar, and a lot of fruit. 🍑🍓🫐</footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

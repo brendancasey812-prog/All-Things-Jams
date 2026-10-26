@@ -6,21 +6,87 @@
   --color-bg: #faf4e6;
   --color-surface: #fffcf5;
   --color-surface-alt: #efe4ce;
-  --color-primary: #d98baa;
-  --color-primary-dark: #c97ba0;
-  --color-primary-soft: #ecc2d3;
+  --color-surface-tint: #fceef0;
+  --color-primary: #e08594;
+  --color-primary-dark: #ce6476;
+  --color-primary-soft: #f0ccd2;
   --color-accent: #c9a05a;
   --color-accent-soft: #e3c483;
-  --color-text: #d98baa;
-  --color-text-muted: #e3aec0;
+  --color-text: #e08594;
+  --color-text-muted: #e8b0b9;
   --color-border: #e5dac4;
+  --color-divider: #f0e6d6;
+  --color-input-bg: #ffffff;
+  --color-on-primary: #ffffff;
+  --color-nav-bg: rgba(250, 244, 230, 0.9);
+  --color-overlay: rgba(44, 26, 31, 0.4);
+  --color-danger: #a23b3b;
+  --color-danger-border: #e2b8b8;
+  --color-danger-bg: #fbeeee;
   --shadow-soft: 0 12px 30px -18px rgba(30, 28, 26, 0.18);
   --shadow-lift: 0 20px 45px -20px rgba(20, 18, 17, 0.25);
+  --shadow-panel: -20px 0 45px -20px rgba(78, 24, 44, 0.5);
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Dark theme. Applied when the viewer's system is dark (unless they chose
+   light explicitly), or when they pick dark in Settings. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #1a181c;
+    --color-surface: #232128;
+    --color-surface-alt: #2d2a33;
+    --color-surface-tint: #3a2a30;
+    --color-primary: #e08594;
+    --color-primary-dark: #ee9ba8;
+    --color-primary-soft: #6b4752;
+    --color-accent: #d4af6a;
+    --color-accent-soft: #8a6f3d;
+    --color-text: #e8a3ae;
+    --color-text-muted: #b98d96;
+    --color-border: #3a3741;
+    --color-divider: #322f3a;
+    --color-input-bg: #2a272f;
+    --color-on-primary: #2a1218;
+    --color-nav-bg: rgba(26, 24, 28, 0.9);
+    --color-overlay: rgba(0, 0, 0, 0.55);
+    --color-danger: #e08080;
+    --color-danger-border: #6b3c3c;
+    --color-danger-bg: #3a2525;
+    --shadow-soft: 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+    --shadow-lift: 0 20px 45px -20px rgba(0, 0, 0, 0.7);
+    --shadow-panel: -20px 0 45px -20px rgba(0, 0, 0, 0.7);
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #1a181c;
+  --color-surface: #232128;
+  --color-surface-alt: #2d2a33;
+  --color-surface-tint: #3a2a30;
+  --color-primary: #e08594;
+  --color-primary-dark: #ee9ba8;
+  --color-primary-soft: #6b4752;
+  --color-accent: #d4af6a;
+  --color-accent-soft: #8a6f3d;
+  --color-text: #e8a3ae;
+  --color-text-muted: #b98d96;
+  --color-border: #3a3741;
+  --color-divider: #322f3a;
+  --color-input-bg: #2a272f;
+  --color-on-primary: #2a1218;
+  --color-nav-bg: rgba(26, 24, 28, 0.9);
+  --color-overlay: rgba(0, 0, 0, 0.55);
+  --color-danger: #e08080;
+  --color-danger-border: #6b3c3c;
+  --color-danger-bg: #3a2525;
+  --shadow-soft: 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+  --shadow-lift: 0 20px 45px -20px rgba(0, 0, 0, 0.7);
+  --shadow-panel: -20px 0 45px -20px rgba(0, 0, 0, 0.7);
 }
 
 * {
@@ -77,7 +143,7 @@ img {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(250, 244, 230, 0.9);
+  background: var(--color-nav-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border);
 }
@@ -228,7 +294,7 @@ img {
 .dropzone.has-file {
   border-style: solid;
   border-color: var(--color-primary-soft);
-  background: #fbeef1;
+  background: var(--color-surface-tint);
 }
 
 .dropzone--hero {
@@ -411,7 +477,7 @@ img {
 
 .btn--primary {
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   box-shadow: var(--shadow-soft);
 }
 
@@ -442,14 +508,14 @@ img {
 
 .btn--danger {
   background: transparent;
-  color: #a23b3b;
-  border: 1.5px solid #e2b8b8;
+  color: var(--color-danger);
+  border: 1.5px solid var(--color-danger-border);
   padding: 6px 12px;
   font-size: 0.8rem;
 }
 
 .btn--danger:hover {
-  background: #fbeeee;
+  background: var(--color-danger-bg);
 }
 
 .btn--sm {
@@ -580,7 +646,7 @@ img {
   padding: 9px 12px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
-  background: #fff;
+  background: var(--color-input-bg);
   color: var(--color-text);
 }
 
@@ -625,7 +691,7 @@ img {
 
 .ingredients-table td {
   padding: 8px;
-  border-bottom: 1px solid #f0e6d6;
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .ingredients-table tr:last-child td {
@@ -646,7 +712,7 @@ img {
 .panel-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(44, 26, 31, 0.4);
+  background: var(--color-overlay);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -665,7 +731,7 @@ img {
   height: 100%;
   width: min(420px, 92vw);
   background: var(--color-bg);
-  box-shadow: -20px 0 45px -20px rgba(78, 24, 44, 0.5);
+  box-shadow: var(--shadow-panel);
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
   z-index: 51;
@@ -722,7 +788,7 @@ fieldset {
 .tabs button.is-active {
   background: var(--color-primary);
   border-color: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 .tab-panel {
@@ -809,7 +875,7 @@ fieldset {
   align-items: center;
   gap: 14px;
   padding: 14px 20px;
-  border-bottom: 1px solid #f0e6d6;
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .checklist li:last-child {
@@ -868,4 +934,84 @@ footer.site-footer {
   .ingredient-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Settings page                                                           */
+/* ---------------------------------------------------------------------- */
+
+.settings-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 28px;
+}
+
+.settings-card__title {
+  font-size: 1.3rem;
+  margin-bottom: 0.3em;
+}
+
+.settings-card__hint {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  max-width: 62ch;
+}
+
+.settings-card__summary {
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+
+.theme-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 18px 0 8px;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.theme-option:hover {
+  border-color: var(--color-primary);
+}
+
+.theme-option.is-active {
+  background: var(--color-surface-alt);
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+}
+
+.theme-option__swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+}
+
+.theme-option__swatch--light {
+  background: #faf4e6;
+}
+
+.theme-option__swatch--dark {
+  background: #1a181c;
+}
+
+.theme-option__swatch--system {
+  background: linear-gradient(135deg, #faf4e6 0 50%, #1a181c 50% 100%);
 }
